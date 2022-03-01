@@ -44,7 +44,7 @@ class History(models.Model):
 
 class Report(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    send_time = models.TimeField()
+    send_time = models.TimeField(default=now)
     last_report = models.DateTimeField(null=True, default=now)
 
     def __str__(self):

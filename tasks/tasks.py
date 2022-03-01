@@ -28,11 +28,11 @@ def send_user(user):
     send_mail("Task List", message, "manager@company.com", [user.email])
 
 
-@periodic_task(run_every=timedelta(minutes=1))
+@periodic_task(run_every=timedelta(minutes=15))
 def send_sheduled_mails():
     times = Report.objects.filter(
         send_time__lte=datetime.now(timezone.utc),
-        last_report__lte=datetime.now(timezone.utc).date() - timedelta(minutes=1),
+        last_report__lte=datetime.now(timezone.utc).date() - timedelta(minutes=15),
     ).order_by("user_id")
     print("wave")
     for i in times:
