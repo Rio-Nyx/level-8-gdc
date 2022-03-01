@@ -30,8 +30,12 @@ class Task(models.Model):
 
 class History(models.Model):
     task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    old_status = models.CharField(max_length=100)
-    new_status = models.CharField(max_length=100)
+    old_status = models.CharField(
+        max_length=100, choices=STATUS_CHOICES, default=STATUS_CHOICES[0][0]
+    )
+    new_status = models.CharField(
+        max_length=100, choices=STATUS_CHOICES, default=STATUS_CHOICES[0][0]
+    )
     time = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -68,7 +72,7 @@ def report(instance, **kwargs):
         pass
 
     if user is not None and report is None:
-        time = datetime.strptime("0:0:0", "%H:%M:%S").time()
+        time = datetime.strptime("0:0:0", "%H:%M:%S", timezone.utc).time()
         Report.objects.create(user=user, send_time=time)
 
 
